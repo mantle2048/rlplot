@@ -3,10 +3,18 @@
 </div>
 
  <br>
- 
- 
+
+
 `rlplot` is an easy to use and highly encapsulated RL plot library (including basic error bar lineplot and a wrapper to [rliable](https://github.com/google-research/rliable)).
 
+<br> 
+ 
+
+ <div align="center">
+  <img width="700px" height="auto" src="https://github.com/mantle2048/my_assets/blob/master/dataflow.png"></a>
+</div>
+
+<br>
 
 ## Installation
 
