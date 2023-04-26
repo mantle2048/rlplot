@@ -37,7 +37,7 @@ If no error occurs, you have successfully installed `rlplot`.
 
 ## Demo
 
-Here, we provides an illustration on how to utilize this library for analysis and plot of your RL experiments.
+Here, we provide an illustration on how to utilize this library for analysis and plot of your RL experiments.
 
 ### 0. Preliminary
 
