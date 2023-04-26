@@ -1,0 +1,5 @@
+# @package _global_
+
+_target_: main.probability_of_improvement
+
+milestone: 1m

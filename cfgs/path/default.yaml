@@ -1,0 +1,9 @@
+# @package _global_
+
+root_dir: ${hydra:runtime.cwd}
+
+exp_dir: ${root_dir}/exps/
+
+fig_dir: ${root_dir}/figs/
+
+diagnosis_dir: ${root_dir}/diagnosis/

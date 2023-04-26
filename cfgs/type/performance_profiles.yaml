@@ -1,0 +1,13 @@
+# @package _global_
+
+_target_: main.performance_profiles
+
+milestones:
+  - 300k
+  - 500k
+  - 1m
+
+tau:
+  low:  0.0
+  high: 1.0
+  nums: 201

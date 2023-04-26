@@ -1,0 +1,7 @@
+# @package _global_
+
+_target_: main.create_diagnosis
+
+milestone_gap: 100000 # 100k, 200k, 300k, ..., 1m
+
+metric: AverageEvalReward

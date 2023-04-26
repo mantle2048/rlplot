@@ -1,0 +1,9 @@
+# @package _global_
+
+_target_: main.metric_curve
+
+metric: AverageEvalReward
+
+aggregate_name: IQM # [Mean, IQM, Media, Optim_gap]
+
+smooth_size: 1

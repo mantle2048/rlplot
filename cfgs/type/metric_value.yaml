@@ -1,0 +1,9 @@
+# @package _global_
+
+_target_: main.metric_value
+
+milestone: 1m
+
+aggregate_names: # [Mean, IQM, Media, Optim_gap]
+  - Mean
+  - IQM

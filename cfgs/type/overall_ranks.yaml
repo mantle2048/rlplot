@@ -1,0 +1,8 @@
+# @package _global_
+
+_target_: main.overall_ranks
+
+milestones:
+  - 300k
+  - 500k
+  - 1m

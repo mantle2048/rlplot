@@ -1,0 +1,21 @@
+defaults:
+  - hydra: default
+  - path: default
+  - type: create_diagnosis
+  - _self_  
+
+n_epoch: 200
+
+epoch_len: 5000
+
+algos:
+  - D
+  - C
+  - B
+  - A
+
+tasks:
+  - Ant-v4
+  - Walker2d-v4
+  - HalfCheetah-v4
+  - Humanoid-v4
