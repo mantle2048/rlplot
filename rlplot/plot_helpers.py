@@ -262,20 +262,6 @@ def generate_pairs(elements):
     return pairs[::-1]
 
 
-def smooth(
-    data: pd.DataFrame,
-    group, metric, size=1,
-):
-    metric_vals = data.groupby(group)[metric].apply(list).values
-    smoothed_metric_vals = [uniform_filter1d(val, size=size) for val in metric_vals]
-    metric_vals = list(chain(*metric_vals))
-    smoothed_metric_vals = list(chain(*smoothed_metric_vals))
-    # data[metric] = smoothed_metric_vals
-    # data = data.assign(**{metric: pd.Series(smoothed_metric_vals).values})
-    data = data.assign(**{metric: smoothed_metric_vals})
-    return data
-
-
 random_score = {
 
     'HalfCheetah-v4': -290.0479832104089,

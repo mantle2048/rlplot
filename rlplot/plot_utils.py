@@ -6,6 +6,8 @@ from scipy.ndimage import uniform_filter1d
 from rlplot.plot_helpers import logging
 from itertools import product
 
+# yanked and modified from https://github.com/google-research/rliable/blob/master/rliable/plot_utils.py
+
 
 def _non_linear_scaling(performance_profiles,
                         tau_list,
