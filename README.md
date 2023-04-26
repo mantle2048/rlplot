@@ -43,7 +43,7 @@ Here, we provides an illustration on how to utilize this library for analysis an
 
 Assum that you have four algorithms `[D, C, B, A]` and four tasks `[HalfCheetah-v4, Ant-v4, Walker2d-v4, Humanoid-v4]`.
 
-The experimental logs are stored in `exps` folder with the following file tree:
+The experimental logs must be put in `exps` folder with the following file tree:
 
 ``` bash
 └── ${algo}_${task}(i.e. A_Ant-v4) # exp_name
