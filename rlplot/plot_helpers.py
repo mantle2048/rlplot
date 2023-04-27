@@ -102,7 +102,7 @@ def load_exp_data(
         run_data = load_func(run_path)
         run_data['Exp'], run_data['Run'] = exp_dir.name, run_dir.name
         run_data['Algo'], run_data['Task'] = exp_dir.name.split('_')
-        exp_data = exp_data.append(run_data, ignore_index=True)
+        exp_data = pd.concat([exp_data, run_data], ignore_index=True)
     return exp_data.dropna(axis=1) if drop_na else exp_data
 
 
@@ -116,7 +116,7 @@ def load_all_exp_data(
     all_exp_data = pd.DataFrame()
     for algo, task in product(algos, tasks):
         exp_path = exp_dir / f'{algo}_{task}'
-        all_exp_data = all_exp_data.append(load_exp_data(exp_path, **kwargs), ignore_index=True)
+        all_exp_data = pd.concat([all_exp_data, load_exp_data(exp_path, **kwargs)], ignore_index=True)
     return all_exp_data.dropna(axis=1) if kwargs.get('drop_na', False) else all_exp_data
 
 
