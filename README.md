@@ -161,6 +161,10 @@ python main.py \
 
 For a "lazy" person :), you can modify the yaml config files in `cfgs` for your case , then just run `make all`.
 
+-----------
+## Video
+[![asciicast](https://asciinema.org/a/K9rOCDVC0ULSaUpkvfA1FhNnw.svg)](https://asciinema.org/a/K9rOCDVC0ULSaUpkvfA1FhNnw)
+
 # Trivia
 
 The main code structure in `rlplot` is very simple, and most of it is inherited from `rliable`. You can completely modify your favorite painting style in `plot_utils.py`. All credit goes to the author of `rliable`.
