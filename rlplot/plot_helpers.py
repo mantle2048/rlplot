@@ -262,49 +262,6 @@ def generate_pairs(elements):
     return pairs[::-1]
 
 
-random_score = {
-
-    'HalfCheetah-v4': -290.0479832104089,
-    'Ant-v4': -55.14243068976598,
-    'Walker2d-v4': 2.5912887180069686,
-    'Humanoid-v4': 120.45141735893694,
-
-}
-
-
-def random_score_norm_func(task: str, scores: List):
-    scores = np.array(scores)
-    nume = scores - random_score[task]
-    deno = np.max(scores) - random_score[task]
-    return nume / deno
-
-
-def normalized_scores(
-    task: str,
-    scores: Union[np.ndarray, List],
-    norm_func: Callable
-):
-    algos = list(scores.keys())
-    envs = list(scores[algos[0]].keys())
-    num_runs = scores[algos[0]][envs[0]].shape[0]
-    env_scores = {env: [] for env in envs}
-    for algo in algos:
-        for env in envs:
-            env_scores[env] += scores[algo][env].tolist()
-    normalized_env_scores = {}
-    for env in envs:
-        normalized_env_scores[env] = norm_func(env, env_scores[env])
-    normalized_scores = {}
-    start, end = 0, num_runs
-    for algo in algos:
-        normalized_scores[algo] = {}
-        for env in envs:
-            normalized_scores[algo][env] = normalized_env_scores[env][start:end]
-        start += num_runs
-        end += num_runs
-    return normalized_scores
-
-
 def convert_to_matrix(score_dict, sort=False):
     if sort:
         keys = sorted(list(score_dict.keys()))
@@ -324,8 +281,8 @@ def read_milestone_from_yaml(
 
 
 def read_and_norm_algo_scores(
-    dir, algos, milestone='1m',
-    norm_func=random_score_norm_func,
+    dir, algos, milestone: str,
+    norm_func: Callable,
 ):
     algo_scores = {
         algo: read_milestone_from_yaml(dir, algo, milestone)

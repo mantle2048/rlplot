@@ -8,6 +8,7 @@ from itertools import product
 
 # yanked and modified from https://github.com/google-research/rliable/blob/master/rliable/plot_utils.py
 
+
 def _non_linear_scaling(performance_profiles,
                         tau_list,
                         xticklabels=None,
@@ -714,3 +715,29 @@ def plot_overall_ranks(
 #     # fig.subplots_adjust(hspace=0.25)
 #
 #     save_fig(fig, save_name, save_dir)
+
+
+# def normalized_scores(
+#     task: str,
+#     scores: Union[np.ndarray, List],
+#     norm_func: Callable
+# ):
+#     algos = list(scores.keys())
+#     envs = list(scores[algos[0]].keys())
+#     num_runs = scores[algos[0]][envs[0]].shape[0]
+#     env_scores = {env: [] for env in envs}
+#     for algo in algos:
+#         for env in envs:
+#             env_scores[env] += scores[algo][env].tolist()
+#     normalized_env_scores = {}
+#     for env in envs:
+#         normalized_env_scores[env] = norm_func(env, env_scores[env])
+#     normalized_scores = {}
+#     start, end = 0, num_runs
+#     for algo in algos:
+#         normalized_scores[algo] = {}
+#         for env in envs:
+#             normalized_scores[algo][env] = normalized_env_scores[env][start:end]
+#         start += num_runs
+#         end += num_runs
+#     return normalized_scores

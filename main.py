@@ -20,6 +20,19 @@ REPS = 50
 CONFIDENCE = 0.68
 
 
+def random_score_norm_func(task: str, scores: List):
+    random_score = {
+        'HalfCheetah-v4': -290.0479832104089,
+        'Ant-v4': -55.14243068976598,
+        'Walker2d-v4': 2.5912887180069686,
+        'Humanoid-v4': 120.45141735893694
+    }
+    scores = np.array(scores)
+    nume = scores - random_score[task]
+    deno = np.max(scores) - random_score[task]
+    return nume / deno
+
+
 def create_diagnosis(
     n_epoch: int = 200,
     epoch_len: int = 5000,
@@ -103,7 +116,11 @@ def metric_curve(
         save_fig(fig, f'metric_curve_{task.lower()}', fig_dir)
 
     algo_scores, normalized_algo_scores = \
-        read_and_norm_algo_scores(diagnosis_dir, algos, 'all')
+        read_and_norm_algo_scores(
+            diagnosis_dir, algos,
+            milestone='all',
+            norm_func=random_score_norm_func
+        )
 
     scores, cis = \
         rly.get_interval_estimates(
@@ -131,7 +148,10 @@ def metric_value(
 ):
 
     algo_scores, normalized_algo_scores = \
-        read_and_norm_algo_scores(diagnosis_dir, algos, milestone)
+        read_and_norm_algo_scores(
+            diagnosis_dir, algos, milestone,
+            norm_func=random_score_norm_func,
+        )
 
     aggregate_func_mapper = {
         'Mean': metrics.aggregate_mean,
@@ -180,7 +200,11 @@ def performance_profiles(
     for i, milestone in enumerate(milestones):
 
         algo_scores, normalized_algo_scores = \
-            read_and_norm_algo_scores(diagnosis_dir, algos, milestone)
+            read_and_norm_algo_scores(
+                diagnosis_dir, algos, milestone,
+                norm_func=random_score_norm_func
+            )
+
         perf_prof, perf_prof_cis = \
             rly.create_performance_profile(
                 normalized_algo_scores, tau,
@@ -220,7 +244,10 @@ def probability_of_improvement(
     **kwargs,
 ):
     algo_scores, normalized_algo_scores = \
-        read_and_norm_algo_scores(diagnosis_dir, algos, milestone)
+        read_and_norm_algo_scores(
+            diagnosis_dir, algos, milestone,
+            norm_func=random_score_norm_func
+        )
 
     pairs = generate_pairs(algos)
 
@@ -250,7 +277,11 @@ def sample_efficiency_curve(
     **kwargs,
 ):
     algo_scores, normalized_algo_scores = \
-        read_and_norm_algo_scores(diagnosis_dir, algos, 'all')
+        read_and_norm_algo_scores(
+            diagnosis_dir, algos, 'all',
+            norm_func=random_score_norm_func
+        )
+
     steps = np.array(steps) - 1
     normalized_algo_steps_scores_dict = {algo: scores[:, :, steps] for algo, scores
                                          in normalized_algo_scores.items()}
@@ -294,7 +325,10 @@ def overall_ranks(
 
     for i, milestone in enumerate(milestones):
         algo_scores, normalized_algo_scores = \
-            read_and_norm_algo_scores(diagnosis_dir, algos, milestone)
+            read_and_norm_algo_scores(
+                diagnosis_dir, algos, milestone,
+                norm_func=random_score_norm_func
+            )
 
         # num_task * (num_algo * num_algo)
         rank_matrix = \
