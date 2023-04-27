@@ -3,10 +3,18 @@
 </div>
 
  <br>
- 
- 
+
+
 `rlplot` is an easy to use and highly encapsulated RL plot library (including basic error bar lineplot and a wrapper to [rliable](https://github.com/google-research/rliable)).
 
+<br> 
+ 
+
+ <div align="center">
+  <img width="700px" height="auto" src="https://github.com/mantle2048/my_assets/blob/master/dataflow.png"></a>
+</div>
+
+<br>
 
 ## Installation
 
@@ -29,13 +37,13 @@ If no error occurs, you have successfully installed `rlplot`.
 
 ## Demo
 
-Here, we provides an illustration on how to utilize this library for analysis and plot of your RL experiments.
+Here, we provide an illustration on how to utilize this library for analysis and plot of your RL experiments.
 
 ### 0. Preliminary
 
 Assum that you have four algorithms `[D, C, B, A]` and four tasks `[HalfCheetah-v4, Ant-v4, Walker2d-v4, Humanoid-v4]`.
 
-The experimental logs are stored in `exps` folder with the following file tree:
+The experimental logs must be put in `exps` folder with the following file tree:
 
 ``` bash
 └── ${algo}_${task}(i.e. A_Ant-v4) # exp_name
