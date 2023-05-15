@@ -288,15 +288,20 @@ def read_and_norm_algo_scores(
         algo: read_milestone_from_yaml(dir, algo, milestone)
         for algo in algos
     }
+
+    task_scores = defaultdict(list)
+    for algo in algos:
+        for task, scores in algo_scores[algo].items():
+            task_scores[task] += scores
+
     normalized_algo_scores = deepcopy(algo_scores)
-    for algo in normalized_algo_scores:
-        normalized_algo_scores[algo] = \
-            {task: norm_func(task, scores)
-                for task, scores in normalized_algo_scores[algo].items()}
-    for algo, task_scores in algo_scores.items():
-        for task, scores in task_scores.items():
-            assert np.argmax(algo_scores[algo][task]) \
-                == np.argmax(normalized_algo_scores[algo][task])
+    for task, scores in task_scores.items():
+        normalized_scores = norm_func(task, scores)
+        num_runs = normalized_scores.shape[0] // len(algos)
+        normalized_scores = \
+            normalized_scores.reshape(len(algos), num_runs, -1).squeeze()
+        for idx, algo in enumerate(normalized_algo_scores):
+            normalized_algo_scores[algo][task] = normalized_scores[idx].tolist()
 
     # num_runs * num_tasks
     algo_scores = \
