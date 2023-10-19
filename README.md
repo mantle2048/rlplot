@@ -7,6 +7,7 @@
 
 `rlplot` is an easy to use and highly encapsulated RL plot library (including basic error bar lineplot and a wrapper to [rliable](https://github.com/google-research/rliable)).
 
+2023.10.19: Added some experimental data (see [exp](https://github.com/mantle2048/rlplot/tree/master/exps)) to specify data format.
 <br> 
  
 
