@@ -5,7 +5,6 @@ tests/
 exps_cached/
 diagnosis/
 figs/
-exps/
 __pycache__/
 
 # C extensions
