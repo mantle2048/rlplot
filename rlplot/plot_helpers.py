@@ -102,7 +102,7 @@ def load_exp_data(
         run_data = load_func(run_path)
         run_data['Exp'], run_data['Run'] = exp_dir.name, run_dir.name
         run_data['Algo'], run_data['Task'] = exp_dir.name.split('_')
-        exp_data = exp_data.append(run_data, ignore_index=True)
+        exp_data = pd.concat([exp_data, run_data], ignore_index=True)
     return exp_data.dropna(axis=1) if drop_na else exp_data
 
 
@@ -116,7 +116,7 @@ def load_all_exp_data(
     all_exp_data = pd.DataFrame()
     for algo, task in product(algos, tasks):
         exp_path = exp_dir / f'{algo}_{task}'
-        all_exp_data = all_exp_data.append(load_exp_data(exp_path, **kwargs), ignore_index=True)
+        all_exp_data = pd.concat([all_exp_data, load_exp_data(exp_path, **kwargs)], ignore_index=True)
     return all_exp_data.dropna(axis=1) if kwargs.get('drop_na', False) else all_exp_data
 
 
@@ -288,15 +288,20 @@ def read_and_norm_algo_scores(
         algo: read_milestone_from_yaml(dir, algo, milestone)
         for algo in algos
     }
+
+    task_scores = defaultdict(list)
+    for algo in algos:
+        for task, scores in algo_scores[algo].items():
+            task_scores[task] += scores
+
     normalized_algo_scores = deepcopy(algo_scores)
-    for algo in normalized_algo_scores:
-        normalized_algo_scores[algo] = \
-            {task: norm_func(task, scores)
-                for task, scores in normalized_algo_scores[algo].items()}
-    for algo, task_scores in algo_scores.items():
-        for task, scores in task_scores.items():
-            assert np.argmax(algo_scores[algo][task]) \
-                == np.argmax(normalized_algo_scores[algo][task])
+    for task, scores in task_scores.items():
+        normalized_scores = norm_func(task, scores)
+        num_runs = normalized_scores.shape[0] // len(algos)
+        normalized_scores = \
+            normalized_scores.reshape(len(algos), num_runs, -1).squeeze()
+        for idx, algo in enumerate(normalized_algo_scores):
+            normalized_algo_scores[algo][task] = normalized_scores[idx].tolist()
 
     # num_runs * num_tasks
     algo_scores = \

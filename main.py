@@ -16,7 +16,7 @@ from rlplot.plot_helpers import \
     get_rank_matrix
 
 
-REPS = 50
+REPS = 1000
 CONFIDENCE = 0.68
 
 

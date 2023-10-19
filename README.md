@@ -26,6 +26,15 @@ cd rlplot
 pip install -e .
 ```
 
+### Requirements
+
+- hydra-core >= 1.3.0
+- arch == 5.3.0
+- scipy >= 1.7.0
+- numpy >= 0.9.0
+- absl-py >= 1.16.4
+- seaborn >= 0.11.2
+
 After installation, open your python console and type
 
 ```python
@@ -161,6 +170,11 @@ python main.py \
 
 For a "lazy" person :), you can modify the yaml config files in `cfgs` for your case , then just run `make all`.
 
+-----------
+## Video
+[![asciicast](https://asciinema.org/a/K9rOCDVC0ULSaUpkvfA1FhNnw.svg)](https://asciinema.org/a/K9rOCDVC0ULSaUpkvfA1FhNnw)
+
 # Trivia
 
-The main code structure in `rlplot` is very simple, and most of it is inherited from `rliable`. You can completely modify your favorite painting style in `plot_utils.py`. All credit goes to the author of `rliable`.
+The main code structure in `rlplot` is very simple, and most of it is inherited from `rliable`. You can completely modify your favorite painting style in `plot_utils.py`. All credit goes to the author of `rliable`. For more details about the specific meaning of above plots, please refer to the original library [`rliable`](https://github.com/google-research/rliable).
+
