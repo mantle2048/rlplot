@@ -101,7 +101,7 @@ def load_exp_data(
         run_dir = run_path.parent
         run_data = load_func(run_path)
         run_data['Exp'], run_data['Run'] = exp_dir.name, run_dir.name
-        run_data['Algo'], run_data['Task'] = exp_dir.name.split('_')
+        run_data['Algo'], run_data['Task'] = exp_dir.name.split('_', 1)
         exp_data = pd.concat([exp_data, run_data], ignore_index=True)
     return exp_data.dropna(axis=1) if drop_na else exp_data
 
@@ -299,7 +299,7 @@ def read_and_norm_algo_scores(
         normalized_scores = norm_func(task, scores)
         num_runs = normalized_scores.shape[0] // len(algos)
         normalized_scores = \
-            normalized_scores.reshape(len(algos), num_runs, -1).squeeze()
+            normalized_scores.reshape(len(algos), num_runs, -1)
         for idx, algo in enumerate(normalized_algo_scores):
             normalized_algo_scores[algo][task] = normalized_scores[idx].tolist()
 

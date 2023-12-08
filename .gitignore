@@ -3,6 +3,7 @@ tests/test_diagnosis/
 tests/test_figs/
 tests/
 exps_cached/
+exps
 diagnosis/
 figs/
 __pycache__/

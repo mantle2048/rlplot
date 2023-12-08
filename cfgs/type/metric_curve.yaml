@@ -2,8 +2,8 @@
 
 _target_: main.metric_curve
 
-metric: AverageEvalReward
+metric: average_score
 
-aggregate_name: IQM # [Mean, IQM, Media, Optim_gap]
+aggregate_name: Mean # [Mean, IQM, Media, Optim_gap]
 
 smooth_size: 1

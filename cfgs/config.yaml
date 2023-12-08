@@ -1,21 +1,19 @@
 defaults:
   - hydra: default
   - path: default
-  - type: create_diagnosis
+  - type: metric_curve
   - _self_  
 
-n_epoch: 200
+n_epoch: 50
 
-epoch_len: 5000
+epoch_len: 10000
 
 algos:
-  - D
-  - C
-  - B
-  - A
+  - drq
 
 tasks:
-  - Ant-v4
-  - Walker2d-v4
-  - HalfCheetah-v4
-  - Humanoid-v4
+  - cartpole-swingup-v0
+  - cheetah-run-v0
+  - ball_in_cup-catch-v0
+  - walker-walk-v0
+  - finger-spin-v0

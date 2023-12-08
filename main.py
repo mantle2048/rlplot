@@ -20,16 +20,24 @@ REPS = 1000
 CONFIDENCE = 0.68
 
 
+random_score = {
+    'HalfCheetah-v4': -290.0479832104089,
+    'Ant-v4': -55.14243068976598,
+    'Walker2d-v4': 2.5912887180069686,
+    'Humanoid-v4': 120.45141735893694
+}
+
+
 def random_score_norm_func(task: str, scores: List):
-    random_score = {
-        'HalfCheetah-v4': -290.0479832104089,
-        'Ant-v4': -55.14243068976598,
-        'Walker2d-v4': 2.5912887180069686,
-        'Humanoid-v4': 120.45141735893694
-    }
     scores = np.array(scores)
-    nume = scores - random_score[task]
-    deno = np.max(scores) - random_score[task]
+    if task in random_score:
+        # gym type
+        nume = scores - random_score[task]
+        deno = np.max(scores) - random_score[task]
+    else:
+        # dm_control type
+        nume = scores
+        deno = 1000.
     return nume / deno
 
 
@@ -98,7 +106,7 @@ def metric_curve(
     df: pd.DataFrame = \
         load_all_exp_data(exp_dir, algos, tasks)
 
-    xaxis = np.arange(1, n_epoch + 1) * epoch_len
+    xaxis = np.arange(0, n_epoch + 1) * epoch_len
     metric_dict = get_metric(df, metric, 'Task')
 
     for task, algo_dict in metric_dict.items():
@@ -108,7 +116,8 @@ def metric_curve(
         )
         fig, ax = plot_utils.plot_metric_curve(
             xaxis, scores, cis,
-            ylabel=f'{aggregate_name} {metric}',
+            # ylabel=f'{aggregate_name} {metric}',
+            ylabel=f'{aggregate_name} Episode Score',
             algorithms=algos,
             task=task,
             smooth_size=smooth_size,
