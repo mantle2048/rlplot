@@ -101,7 +101,7 @@ def load_exp_data(
         run_dir = run_path.parent
         run_data = load_func(run_path)
         run_data['Exp'], run_data['Run'] = exp_dir.name, run_dir.name
-        run_data['Algo'], run_data['Task'] = exp_dir.name.split('_')
+        run_data['Algo'], run_data['Task'] = exp_dir.name.split('_', 1)
         exp_data = pd.concat([exp_data, run_data], ignore_index=True)
     return exp_data.dropna(axis=1) if drop_na else exp_data
 
