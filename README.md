@@ -171,6 +171,38 @@ python main.py \
 
 For a "lazy" person :), you can modify the yaml config files in `cfgs` for your case , then just run `make all`.
 
+#### 2.8. Practical sub-optimality gap
+
+The *Optimality Gap* above is measured against a fixed reference such as human scores. `rlplot.suboptimality` instead measures how well an algorithm *exploits the experience it generated*, using the mean of the top-k% (default 5%) episodic returns the agent itself produced as the reference ([Berseth, 2025](https://arxiv.org/abs/2508.01329)). A large gap means the agent generated better experience than its learned policy achieves, i.e. the bottleneck is optimization rather than exploration.
+
+Log the estimates during training:
+
+```python
+from rlplot.suboptimality import ExperienceGapTracker
+
+tracker = ExperienceGapTracker(buffer_size=1000, top_fraction=0.05)
+...
+tracker.add(episode_return)  # for every finished episode
+for key, value in tracker.stats().items():  # avg_top_returns_global/local, global/local_optimality_gap, ...
+    writer.add_scalar(f"charts/{key}", value, global_step)
+```
+
+Then aggregate across runs and tasks with the usual interval estimates:
+
+```python
+from rlplot import library, metrics
+from rlplot.suboptimality import experience_normalized_scores
+
+# (num_runs x num_tasks) matrices: final policy returns, logged avg_top_returns_global
+# (or _local for the "recent" estimate), and a lower reference such as a random policy's return.
+normalized = {algo: experience_normalized_scores(scores[algo], optimal[algo], random_returns)
+              for algo in algos}
+gaps, gap_cis = library.get_interval_estimates(
+    normalized, lambda x: np.array([metrics.aggregate_optimality_gap(x)]), reps=2000)
+```
+
+`compute_optimal_k` selects the top fraction from data, as the smallest k whose estimate reaches a target relative standard error.
+
 -----------
 ## Video
 [![asciicast](https://asciinema.org/a/K9rOCDVC0ULSaUpkvfA1FhNnw.svg)](https://asciinema.org/a/K9rOCDVC0ULSaUpkvfA1FhNnw)
